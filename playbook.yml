@@ -1,0 +1,67 @@
+---
+- name: Set DSRA Client
+  hosts: all
+  vars:
+    - nameservice_id=xdata
+  remote_user: vagrant
+  tasks:
+    - name: install the libselinux-python package
+      become: true
+      yum: name=libselinux-python state=installed
+
+    - name: create repos
+      become: true
+      yum: name={{ item }} state=present
+      with_items:
+        - http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+        - http://archive.cloudera.com/cdh5/one-click-install/redhat/6/x86_64/cloudera-cdh-5-0.x86_64.rpm
+
+    - name: create cdh gplextras repo
+      become: true
+      get_url: url=http://archive-primary.cloudera.com/gplextras5/redhat/6/x86_64/gplextras/cloudera-gplextras5.repo dest=/etc/yum.repos.d mode=0644
+
+    - name: setup basics
+      become: true
+      yum: name={{ item }} state=latest
+      with_items:
+        - bind-utils
+        - vpnc
+        - nscd
+        - wget
+        - java-1.8.0-openjdk-devel
+        - "@Development tools"
+
+    - name: setup CDH packages
+      become: true
+      yum: name={{ item }} state=latest
+      with_items:
+        - hadoop-client
+        - hadoop-lzo
+        - spark-core
+        - spark-python
+        - hbase
+        - hive
+        - hive-jdbc
+        - hive-hbase
+        - impala
+        - impala-shell
+        - pig
+        - zookeeper
+        - sqoop
+
+    - name: create /etc/hadoop/conf.{{ nameservice_id }}
+      become: true
+      file: path=/etc/hadoop/conf.{{ nameservice_id }} state=directory owner=root group=root mode=0755
+      register: create_hadoop_conf
+    - name: create alternatives for hadoop-conf
+      when: create_hadoop_conf|changed
+      become: true
+      shell: alternatives --install /etc/hadoop/conf hadoop-conf {{ item }} 50
+      with_items:
+        - /etc/hadoop/conf.{{ nameservice_id }}
+    - name: create alternatives for hadoop-conf
+      when: create_hadoop_conf|changed
+      become: true
+      shell: alternatives --set hadoop-conf {{ item }}
+      with_items:
+        - /etc/hadoop/conf.{{ nameservice_id }}

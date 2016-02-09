@@ -22,14 +22,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 #      ansible.playbook = "playbook.yml"
 #  end
 
-  config.vm.synced_folder "./hadoop", "/etc/hadoop/conf.xdata"
-  config.vm.synced_folder "./spark/conf.cdh", "/etc/spark/conf"
-  config.vm.synced_folder "./spark/conf.apache", "/opt/spark/conf"
-  config.vm.synced_folder "./hive", "/etc/hive/conf"
-  config.vm.synced_folder "./hbase", "/etc/hbase/conf"
-  config.vm.synced_folder "./kafka", "/etc/kafka/conf"
-
   # To use the same network as the Host OS is
   #config.vm.network "public_network"
-
 end

@@ -1,0 +1,29 @@
+---
+- name: setup CDH packages
+  become: true
+  yum: name={{ item }} state=latest
+  with_items:
+    - hadoop-client
+    - hadoop-lzo
+    - pig
+    - zookeeper
+    - sqoop
+
+- name: create /etc/hadoop/conf.{{ nameservice_id }}
+  become: true
+  file: path=/etc/hadoop/conf.{{ nameservice_id }} state=directory owner=root group=root mode=0755
+  register: create_hadoop_conf
+
+- name: create alternatives for hadoop-conf
+  when: create_hadoop_conf|changed
+  become: true
+  shell: alternatives --install /etc/hadoop/conf hadoop-conf {{ item }} 50
+  with_items:
+    - /etc/hadoop/conf.{{ nameservice_id }}
+
+- name: create alternatives for hadoop-conf
+  when: create_hadoop_conf|changed
+  become: true
+  shell: alternatives --set hadoop-conf {{ item }}
+  with_items:
+    - /etc/hadoop/conf.{{ nameservice_id }}

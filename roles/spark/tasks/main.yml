@@ -1,0 +1,7 @@
+---
+- name: Add CDH Spark packages
+  become: true
+  yum: name={{ item }} state=latest
+  with_items:
+    - spark-core
+    - spark-python

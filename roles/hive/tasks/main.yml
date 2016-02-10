@@ -1,0 +1,10 @@
+---
+- name: Add CDH HIVE/Impala packages
+  become: true
+  yum: name={{ item }} state=latest
+  with_items:
+    - hive
+    - hive-jdbc
+    - hive-hbase
+    - impala
+    - impala-shell

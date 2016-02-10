@@ -28,7 +28,7 @@
   </property>
   <property>
     <name>hbase.rootdir</name>
-    <value>hdfs://xdata/hbase</value>
+    <value>hdfs://{{ nameservice_id }}/hbase</value>
   </property>
   <property>
     <name>hbase.zookeeper.quorum</name>
@@ -36,6 +36,6 @@
   </property>
   <property>
     <name>zookeeper.znode.parent</name>
-    <value>/xdata/hbase</value>
+    <value>/{{ nameservice_id }}/hbase</value>
    </property>
 </configuration>

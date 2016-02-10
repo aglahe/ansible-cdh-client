@@ -1,5 +1,5 @@
 ---
-- name: setup CDH packages
+- name: setup basic CDH Hadoop packages
   become: true
   yum: name={{ item }} state=latest
   with_items:

@@ -1,0 +1,13 @@
+# core-site_xml
+nameservice_id: memex
+fs_trash_interval: 1440
+
+#hdfs-site_xml
+
+#yarn-site_xml
+
+#mapred-site_xml
+
+#hbase-site_xml
+
+#hive-site_xml

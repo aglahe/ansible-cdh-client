@@ -18,10 +18,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "bento/centos-6.7"
   config.vm.hostname = "dsra-client"
 
-# config.vm.provision "ansible" do |ansible|
-#   ansible.playbook = "site.yml"
-# end
-
   # To use the same network as the Host OS is
   #config.vm.network "public_network"
 end
